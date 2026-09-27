@@ -1,0 +1,20 @@
+{
+	"editor.rulers": [
+		{
+			"column": 80,
+			"color": "#00ff0033"
+		},
+		{
+			"column": 120,
+			"color": "#ff000055"
+		}
+	],
+	"material-icon-theme.folders.associations": {
+		"02-php": "php",
+		"PHP-classes": "php",
+		"PHP-functions": "php",
+		"PHP-scripts": "php",
+		"01-nginx": "nginx",
+		"vol-x-01-nginx-conf.d": "nginx",
+	},
+}
