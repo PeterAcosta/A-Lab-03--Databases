@@ -1,0 +1,86 @@
+
+services:
+
+  my-postgresql:
+    build:
+      context: .
+      dockerfile: Dockerfile.04-postgres-debian
+
+    image: 04-image-postgresql
+    container_name: 04-postgresql
+
+    restart: unless-stopped
+
+    ports:
+      - "${POSTGRES_PORT}:5432"
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      TZ: America/Argentina/Buenos_Aires
+
+    volumes:
+      - 04-vol-postgresql-database:/var/lib/postgresql
+
+    networks:
+      00-net-devel-02:
+        ipv4_address: 172.30.0.4
+
+
+volumes:
+  04-vol-postgresql-database:
+    name: 04-vol-postgresql-database
+
+
+networks:
+  00-net-devel-02:
+    name: 00-net-devel-02
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
+          gateway: 172.30.0.1
+
+
+# ------------------------------------------------------------------------------------------------
+# AYUDA MEMORIA
+# ------------------------------------------------------------------------------------------------
+
+### Construir la imagen y crear/arrancar el contenedor:
+# docker compose -f docker-compose.yaml up -d --build
+
+
+### Ver los contenedores del Compose:
+# docker compose -f docker-compose.yaml ps
+
+
+### Ver los logs de PostgreSQL:
+# docker compose -f docker-compose.yaml logs -f
+
+
+### Entrar al contenedor PostgreSQL:
+# docker exec -it 04-postgresql bash
+
+
+### Detener y eliminar el contenedor:
+### El volumen NO se elimina.
+# docker compose -f docker-compose.yaml down
+
+
+### Detener y eliminar contenedor + volumen:
+### ¡ELIMINA LOS DATOS DE POSTGRESQL!
+# docker compose -f docker-compose.yaml down -v
+
+
+### Ver el volumen:
+# docker volume inspect 04-vol-postgresql-database
+
+
+### Ver las redes:
+# docker network ls
+
+
+### Ver la red:
+# docker network inspect 00-net-devel-02
+
