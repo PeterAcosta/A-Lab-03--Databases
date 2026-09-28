@@ -22,7 +22,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     printf '\n### Peter added:\n' >> /root/.bashrc && \
     printf '%s\n' \
-        "PS1='{\033[01;33m\]$THIS_IMAGE_TAG $THIS_IMAGE\[\033[00m\]} [\[\033[1;31m\]\u@\h\[\033[00m\]:[\033[01;34m\]\w\[\033[00m\]] \$ '" \
+        "PS1='{\033[01;33m\]$THIS_IMAGE_TAG $THIS_IMAGE\[\033[00m\]} [\[\033[1;31m\]\u@\h\[\033[00m\]:\033[01;34m\]\w\[\033[00m\]] \$ '" \
         >> /root/.bashrc && \
     printf '%s\n' \
         "alias ls='ls --color=auto'" \

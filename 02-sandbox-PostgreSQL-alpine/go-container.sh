@@ -21,7 +21,7 @@ while true; do
     fi
 
     echo -e "\n${BLUE}===========================================${RESET}"
-    echo -e "${BOLD}  Contenedores Docker en ejecución$  v0.2 ${RESET}"
+    echo -e "${BOLD}  Contenedores Docker en ejecución$  v0.3 ${RESET}"
     echo -e "${BLUE}===========================================${RESET}"
     echo ""
 
