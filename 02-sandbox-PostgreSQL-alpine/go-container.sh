@@ -58,16 +58,26 @@ while true; do
     fi
 
     CONTAINER_NAME="${CONTAINERS[$((opcion - 1))]}"
+    echo -e "${CYAN}Ingresando al contenedor: ${BOLD}${CONTAINER_NAME} : ${RESET}"
 
-    echo -e "${CYAN}Ingresando al contenedor: ${BOLD}${CONTAINER_NAME} : \n${RESET}"
-
-    # Intentar bash, si no existe usar sh
-    if docker exec -it "$CONTAINER_NAME" /bin/bash 2>/dev/null; then
-        :
+    # Detectar shell disponible (sin abrir sesión interactiva)
+    if docker exec "$CONTAINER_NAME" sh -c 'command -v bash >/dev/null 2>&1'; then
+		echo -e "${BLUE}bash disponible, usando bash...\n${RESET}"
+        SHELL_CMD="bash"
+    elif docker exec "$CONTAINER_NAME" sh -c 'command -v sh >/dev/null 2>&1'; then
+        echo -e "${BLUE}bash no disponible, usando sh...\n${RESET}"
+        SHELL_CMD="sh"
     else
-        echo -e "${YELLOW}bash no disponible, probando con sh...${RESET}"
-        docker exec -it "$CONTAINER_NAME" /bin/sh
+        echo -e "${RED}El contenedor no tiene ni bash ni sh. Presioná Enter para continuar...${RESET}"
+        read -r
+        clear
+        continue
     fi
+
+    docker exec -it "$CONTAINER_NAME" "$SHELL_CMD"
+
+
+
 
     echo ""
     echo -e "${CYAN}Saliste del contenedor '${CONTAINER_NAME}'. Volviendo al menú...${RESET}"
