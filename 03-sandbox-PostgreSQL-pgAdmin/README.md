@@ -1,3 +1,5 @@
+<img src="docker-postgres-pgadmin.jpg" alt="Contenedor Docker con PostgreSQL 18.6" />
+
 # Sandbox: PostgreSQL 18.6 y pgAdmin 4
 
 Este directorio contiene un entorno local de desarrollo y aprendizaje compuesto por dos contenedores Docker: PostgreSQL 18.6 sobre Alpine y pgAdmin 4 para administrar el servidor desde una interfaz web. Docker Compose construye ambas imágenes a partir de sus respectivos Dockerfiles y conecta los servicios en una red privada.
