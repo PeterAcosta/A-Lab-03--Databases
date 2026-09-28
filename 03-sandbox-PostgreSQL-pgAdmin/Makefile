@@ -27,7 +27,7 @@ wipe: ## 			Arrasa con todo, cierra todo, borras las imagenes y borra los direct
 	docker compose down 
 	docker rmi  $$(docker images -aq )
 ## 	Ojo borra el volumen :
-	docker volume rm 04-vol-postgresql-database
+	docker volume rm 04-vol-postgresql-database 05-vol-pgadmin-data 
 
 
 

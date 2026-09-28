@@ -28,9 +28,44 @@ services:
         ipv4_address: 172.30.0.4
 
 
+
+  my-pgadmin:
+    build:
+      context: .
+      dockerfile: Dockerfile.05-pgAdmin
+
+    image: 05-image-pgadmin
+    container_name: 05-pgadmin
+
+    restart: unless-stopped
+
+    depends_on:
+      - my-postgresql
+
+    ports:
+      - "${PGADMIN_PORT}:80"
+
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      TZ: America/Argentina/Buenos_Aires
+
+    volumes:
+      - 05-vol-pgadmin-data:/var/lib/pgadmin
+
+    networks:
+      00-net-devel-02:
+        ipv4_address: 172.30.0.5
+
+
+
 volumes:
   04-vol-postgresql-database:
     name: 04-vol-postgresql-database
+  05-vol-pgadmin-data:
+    name: 05-vol-pgadmin-data
+
+
 
 
 networks:

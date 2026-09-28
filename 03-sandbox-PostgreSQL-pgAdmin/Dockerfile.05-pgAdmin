@@ -1,0 +1,72 @@
+ARG IMAGE_NAME="dpage/pgadmin4:9.18"
+FROM ${IMAGE_NAME}
+ARG IMAGE_NAME
+
+# filename: Dockerfile.05-pgadmin
+# pgAdmin 4 (base Alpine)
+# docker pull dpage/pgadmin4:9.18
+
+# EXPOSE 80
+
+# Variables de entorno del contenedor
+ENV THIS_IMAGE="${IMAGE_NAME}"
+ENV THIS_IMAGE_TAG="05"
+ENV TZ=America/Argentina/Buenos_Aires
+# ash (sh) lee este archivo en shells interactivos
+ENV ENV=/etc/ashrc
+
+# Include & Entrypoint
+COPY --chmod=0755 entrypoint.05-pgAdmin.sh /usr/local/bin/entrypoint-custom.sh
+
+USER root
+
+
+
+
+
+# RUN apk add --no-cache nano tzdata
+
+# RUN printf '%s\n' \
+#         "# ### Peter added:" \
+#         "PS1='{\[\033[01;33m\]$THIS_IMAGE_TAG $THIS_IMAGE\[\033[00m\]} [\[\033[1;31m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]] \$ '" \
+#         "alias ls='ls --color=auto'" \
+#         "alias ll='ls -alF'" \
+#         "alias lk='ls -l'" \
+#         > /etc/ashrc
+
+# RUN mkdir -p /home/pgadmin && \
+#     cp /etc/ashrc /root/.bashrc && \
+#     cp /etc/ashrc /home/pgadmin/.bashrc && \
+#     chown -R pgadmin:root /home/pgadmin
+
+# RUN date +"0 - %Y-%m-%d  %A  %T - Dockerfile : Image Build [ $THIS_IMAGE_TAG $IMAGE_NAME ]" \
+#         > /tmp/00-pgAdmin-docker-init.log && \
+#     chown pgadmin /tmp/00-pgAdmin-docker-init.log && \
+#     chmod 644 /tmp/00-pgAdmin-docker-init.log
+
+
+RUN apk add --no-cache nano tzdata && \
+    printf '%s\n' \
+        "# ### Peter added:" \
+        "PS1='{\[\033[01;33m\]$THIS_IMAGE_TAG $THIS_IMAGE\[\033[00m\]} [\[\033[1;31m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]] \$ '" \
+        "alias ls='ls --color=auto'" \
+        "alias ll='ls -alF'" \
+        "alias lk='ls -l'" \
+        > /etc/ashrc && \
+    mkdir -p /home/pgadmin && \
+    cp /etc/ashrc /root/.bashrc && \
+    cp /etc/ashrc /home/pgadmin/.bashrc && \
+    chown -R pgadmin:root /home/pgadmin && \
+    date +"0 - %Y-%m-%d  %A  %T - Dockerfile : Image Build [ $THIS_IMAGE_TAG $IMAGE_NAME ]" \
+        > /tmp/00-pgAdmin-docker-init.log && \
+    chown pgadmin /tmp/00-pgAdmin-docker-init.log && \
+    chmod 644 /tmp/00-pgAdmin-docker-init.log
+
+
+
+# Volver al usuario original de la imagen oficial
+USER pgadmin
+
+# WORKDIR /pgadmin4
+
+ENTRYPOINT ["entrypoint-custom.sh"]
